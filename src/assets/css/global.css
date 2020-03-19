@@ -1,0 +1,12 @@
+@import "./normalize.css";
+
+@import './colors.css';
+@import './ico_luca.css';
+
+
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+
+html {
+	font-family: 'Telefonica','Roboto', sans-serif;
+	color: var(--neutral8, #4d4d44);
+  }

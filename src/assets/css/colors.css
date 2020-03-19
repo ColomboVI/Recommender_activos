@@ -1,0 +1,39 @@
+:root {
+    --neutral0: #ffffff;
+    --neutral1: #f4f4f4;
+    --neutral2: #eaeaea;
+    --neutral3: #d9d9d9;
+    --neutral4: #bfbfbf;
+    --neutral5: #a6a6a6;
+    --neutral6: #8c8c8c;
+    --neutral7: #666666;
+    --neutral8:#4d4d4d;
+    --neutral9: #333333;
+    --neutral10: #000000;
+
+    --palette1: #00c3db;
+    --palette2: #1aa992;
+    --palette3: #547d93;
+    --palette4: #ff0099;
+    --palette5: #ff7a00;
+    --palett36: #00aaee;
+
+    --inkcolor: #777777;
+
+    --chart1: #1aa992;
+    --chart2: #ff0099;
+    --chart3: #00aaee;
+    --chart4: #ff7a00;
+    --chart5: #547d93;
+    --chart6: #00c3db;
+    --chart7: #f42b15;
+    --chart8: #c3d100;
+    --chart9: #003b71;
+    --chart10: #fce600;
+    --chart11: #0082c5;
+    --chart12: #43a047;
+    --chart13: #8800dd;
+    --chart14: #89bc00;
+    --chart15: #ffb330;
+
+}
