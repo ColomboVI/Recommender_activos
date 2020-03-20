@@ -1,0 +1,47 @@
+#title {
+  text-align: center;
+}
+
+#tabla {
+  width: 36px;
+  height: 16px;
+  font-size: 14px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.14;
+  letter-spacing: normal;
+  text-align: right;
+  color: var(--neutral8);
+  text-align: center;
+  border-collapse: collapse;
+  width: 650px;
+}
+
+#tabla td,
+#tabla th {
+  height: 70px;
+  padding: 8px;
+}
+
+#tabla tr:nth-child(even) {
+  height: 70px;
+  background-color: var(--neutral1);
+}
+
+#tabla tr:hover {
+  height: 70px;
+  background-color: #ddd;
+}
+
+#tabla th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: white;
+  color: black;
+}
+
+.densidadBaja-Header {
+  width: 1270px;
+  height: 70px;
+}
