@@ -5,7 +5,7 @@ import matchSorter from 'match-sorter';
 
 // Define a default UI for filtering
 function DefaultColumnFilter({ column: { filterValue, setFilter, preFilteredRows } }) {
-  const count = preFilteredRows.length;
+  const contador = preFilteredRows.length;
   // const count = preGlobalFilteredRows.length;
 
   return (
