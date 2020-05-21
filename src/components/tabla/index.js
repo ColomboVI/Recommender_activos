@@ -6,7 +6,7 @@ export class LucaTabla extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      alumnos
+      alumnos,
     };
     this.crearHeaders = this.crearHeaders.bind(this);
     this.createCabeceras = this.createCabeceras.bind(this);
@@ -16,15 +16,15 @@ export class LucaTabla extends React.Component {
   crearHeaders() {
     let data = this.state.alumnos;
     const headers = new Set([]);
-    data.forEach(elemento => {
-      Object.keys(elemento).forEach(keyElement => headers.add(keyElement));
+    data.forEach((elemento) => {
+      Object.keys(elemento).forEach((keyElement) => headers.add(keyElement));
     });
     return headers;
     // let result = data.flatMap(Object.keys(data));
     // let result = Object.keys(Object.assign({}, ...data));
   }
   createCabeceras() {
-    return this.crearHeaders().forEach(header => {
+    return this.crearHeaders().forEach((header) => {
       console.log(header);
       return <li>{header}</li>;
     });
@@ -54,15 +54,15 @@ export class LucaTabla extends React.Component {
     return (
       <div>
         {this.createCabeceras()}
-        <button onClick={this.createCabeceras}>click</button>
-        {/* <h1 id="title">{this.props.titulo}</h1>
+        {/* <button onClick={this.createCabeceras}>click</button> */}
+        <h1 id="title">{this.props.titulo}</h1>
         <table id="tabla">
           <tbody>
             <tr className="densidadBaja-Header">{this.renderTableHeader()}</tr>
             {this.renderTableData()}
           </tbody>
         </table>
-        <button onClick={this.createCabeceras}>click</button> */}
+        {/* <button onClick={this.createCabeceras}>click</button> */}
       </div>
     );
   }
