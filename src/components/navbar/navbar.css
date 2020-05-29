@@ -1,0 +1,92 @@
+.navmenu {
+  background-color: var(--neutral2);
+  height: 60px;
+  display: flex;
+  flex-direction: row;
+}
+
+#luca--logo {
+  width: 78px;
+  height: 20px;
+  margin: 20px 30px;
+  font-family: ico_LUCA;
+  font-size: 20px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #000 !important;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+ul.navmenu {
+  list-style: none;
+}
+
+ul.navmenu a {
+  float: left;
+  height: 37px;
+  padding: 0 30px;
+  margin-top: 20px;
+  opacity: 0.5;
+  font-size: 18px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-decoration: none;
+  color: var(--neutral8);
+}
+
+/* ul.luca--navmenu li:hover {
+  opacity: 1;
+  border-bottom: 3px solid var(--neutral4);
+} */
+#root > div > header > nav > ul > a {
+  text-decoration: none;
+}
+#root > div > header > nav > ul > a:visited {
+  color: black;
+}
+#root > div > header > nav > ul.navmenu > a:hover {
+  opacity: 1;
+  border-bottom: 3px solid var(--neutral4);
+}
+#root > div > header > nav > ul.navmenu > a.active {
+  opacity: 1;
+  font-weight: bold;
+  color: black !important;
+  border-bottom: 3px solid rgb(56, 55, 55);
+}
+.marginInput {
+  margin-top: 20px;
+}
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+}
+.custom-file-input::before {
+  content: 'Cargar datos';
+  display: inline-block;
+  /* background: linear-gradient(top, #f9f9f9, #e3e3e3); */
+  border: 1px solid #999;
+  border-radius: 3px;
+  padding: 5px 8px;
+  outline: none;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+}
+.custom-file-input:hover::before {
+  border-color: black;
+}
+.custom-file-input:active::before {
+  /* background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9); */
+}
