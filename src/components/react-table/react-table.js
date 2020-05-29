@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { useTable, usePagination, useFilters, useGlobalFilter, useRowSelect } from 'react-table';
 // A great library for fuzzy filtering/sorting items
 import matchSorter from 'match-sorter';
@@ -20,8 +21,6 @@ function DefaultColumnFilter({ column: { filterValue, setFilter, preFilteredRows
         marginTop: '6px',
         padding: '8px',
         fontSize: '0.8rem',
-        // fontSize: '1.1rem',
-        // border: '0',
       }}
     />
   );
@@ -35,8 +34,8 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 fuzzyTextFilterFn.autoRemove = (val) => !val;
 
 // Our table component
-
-function Table({ columns, data, title }) {
+function ReactTable({ columns, data, title }) {
+  let history = useHistory();
   const [datosSeleccionados, setDatosSeleccionados] = React.useState({});
   const filterTypes = React.useMemo(
     () => ({
@@ -146,6 +145,7 @@ function Table({ columns, data, title }) {
         2
       )
     );
+    history.push('/resultado');
   }
 
   // Render the UI for your table
@@ -282,4 +282,4 @@ const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref)
     </>
   );
 });
-export default Table;
+export default ReactTable;

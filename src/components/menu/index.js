@@ -6,7 +6,7 @@ export class LucaMenu extends React.Component {
     super(props);
 
     this.state = {
-      selectOption: void 0
+      selectOption: void 0,
     };
   }
 

@@ -1,0 +1,7 @@
+[
+  { "id": 1, "marca": "Seat", "modelo": "Leon", "año": 2000, "usado": "si" },
+  { "id": 2, "marca": "Peugeot", "modelo": "308", "año": 2015, "usado": "si" },
+  { "id": 3, "marca": "Hyundai", "modelo": "i20", "año": 2003, "usado": "si" },
+  { "id": 4, "marca": "Audi", "modelo": "A3", "año": 2008, "usado": "si" },
+  { "id": 5, "marca": "Volvo", "modelo": "s40", "año": 2010, "usado": "si" }
+]
