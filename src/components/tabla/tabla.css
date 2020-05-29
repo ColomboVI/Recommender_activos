@@ -3,6 +3,7 @@
 }
 
 #tabla {
+  margin: auto;
   width: 36px;
   height: 16px;
   font-size: 14px;
@@ -19,17 +20,17 @@
 
 #tabla td,
 #tabla th {
-  height: 70px;
+  height: 40px;
   padding: 8px;
 }
 
 #tabla tr:nth-child(even) {
-  height: 70px;
+  height: 40px;
   background-color: var(--neutral1);
 }
 
 #tabla tr:hover {
-  height: 70px;
+  height: 40px;
   background-color: #ddd;
 }
 
@@ -42,6 +43,6 @@
 }
 
 .densidadBaja-Header {
-  width: 1270px;
-  height: 70px;
+  width: 1240px;
+  height: 40px;
 }
