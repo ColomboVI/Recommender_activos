@@ -1,5 +1,5 @@
 import React from 'react';
-import { LucaTabla } from '../tabla/index';
+import { LucaTabla } from '../tabla/tabla';
 import './tab.css';
 
 const Tab = () => {

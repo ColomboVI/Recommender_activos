@@ -36,7 +36,7 @@ fuzzyTextFilterFn.autoRemove = (val) => !val;
 // Our table component
 function ReactTable({ columns, data, title }) {
   let history = useHistory();
-  const [datosSeleccionados, setDatosSeleccionados] = React.useState({});
+  const [datosSeleccionados, setDatosSeleccionados] = React.useState([]);
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
@@ -145,6 +145,17 @@ function ReactTable({ columns, data, title }) {
         2
       )
     );
+    // console.log('datosSeleccionados2 ==>', datosSeleccionados);
+    history.push('/resultado');
+  }
+
+  function handleDatos(props) {
+    let aray = [];
+    selectedFlatRows.map((d) => {
+      aray.push(d.original);
+    });
+    setDatosSeleccionados(aray);
+    console.log('aray', aray);
     history.push('/resultado');
   }
 
@@ -242,7 +253,7 @@ function ReactTable({ columns, data, title }) {
         </select>
       </div>
 
-      <button className="botonEnviar" onClick={handleData}>
+      <button className="botonEnviar" onClick={handleDatos}>
         Enviar
       </button>
 
