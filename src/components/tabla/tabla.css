@@ -46,3 +46,16 @@
   width: 1240px;
   height: 40px;
 }
+
+.download-table-xls-button {
+  /* margin-top: 5px; */
+  background-color: rgb(23, 25, 31);
+  color: white;
+  padding: 8px;
+  border-radius: 3px;
+  margin-left: 5px;
+  text-decoration: none;
+}
+.download-table-xls-button:hover {
+  cursor: pointer;
+}
