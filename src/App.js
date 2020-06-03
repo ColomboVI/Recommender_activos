@@ -115,7 +115,7 @@ function App() {
               <LucaTabla titulo="Resultado" datos={data} />
             </Route> */}
             <Route path="/resultado">
-              <Tab />
+              <Tab updateTableData={updateData} tituloTable={recibeNombre} />
             </Route>
           </Switch>
         </div>
