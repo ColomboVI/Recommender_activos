@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTable, usePagination, useFilters, useGlobalFilter, useRowSelect } from 'react-table';
 import matchSorter from 'match-sorter';
+import './react-table-items.css';
 import { DataContext } from '../../contexts/DataContext';
-import Boton from '../boton/boton';
-import './react-table.css';
 
 function DefaultColumnFilter({ column: { filterValue, setFilter, preFilteredRows } }) {
   // const contador = preFilteredRows.length;
@@ -37,25 +36,10 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 fuzzyTextFilterFn.autoRemove = (val) => !val;
 
 // Our table component
-function ReactTable({ data, title }) {
-  const handleClick = (e) => {
-    history.push('/home');
-    const reader = new FileReader();
-    reader.onload = function () {
-      // props.updateTableData(reader.result);
-      updateData(reader.result);
-    };
-    // props.tituloTable(e.target.files[0].name);
-    if (!e.target.files) {
-      return;
-    }
-    const titulo = e.target.files[0].name.split('.')[0].toUpperCase();
-    setTituloTabla(titulo);
-    reader.readAsText(e.target.files[0]);
-  };
-  const { columns, updateData, setTituloTabla } = useContext(DataContext);
+function ReactTableItems({ data, title, columns }) {
+  const { setId, setTablaItems, setResult, setObjeto } = useContext(DataContext);
   let history = useHistory();
-  const [setDatosSeleccionados] = React.useState([]);
+  const [datosSeleccionados, setDatosSeleccionados] = React.useState([]);
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
@@ -145,20 +129,26 @@ function ReactTable({ data, title }) {
   );
 
   function handleDatos(props) {
-    let aray = [];
+    let array = [];
     selectedFlatRows.map((d) => {
-      aray.push(d.original);
+      array.push(d.original);
     });
-    setDatosSeleccionados(aray);
-    console.log('aray', aray);
-    fetch('http://localhost:5000/datos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ aray }),
-    });
-
+    let obj = { tipo: 'item' };
+    obj.id = array[0].id;
+    setObjeto(obj);
+    setDatosSeleccionados(array);
+    setId(array[0].id);
+    setTablaItems(true);
+    // console.log('array =>', array[0].id);
+    // fetch('http://localhost:4000/items', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(array),
+    // }).then((res) => {
+    //   res.json().then((data) => setResult(data));
+    // });
     history.push('/resultado');
   }
 
@@ -259,7 +249,7 @@ function ReactTable({ data, title }) {
       {/* Botones */}
       <div className="buttons">
         <button className="botonEnviar" onClick={handleDatos}>
-          Enviar datos
+          Usuarios recomendados para pelicula
         </button>
 
         {/* <Boton
@@ -305,4 +295,4 @@ const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref)
     </>
   );
 });
-export default ReactTable;
+export default ReactTableItems;

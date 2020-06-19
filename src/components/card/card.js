@@ -21,7 +21,7 @@ const Card = (props) => {
         <strong>Por favor</strong> presione el boton en la parte superior derecha en el menu de la
         cabecera, para seleccionar y cargar un fichero en formato json.
       </p>
-      <Boton subirFichero={handleClick} />
+      <Boton subirFichero={handleClick} nameButton={'Cargar datos'} />
     </div>
   );
 };
