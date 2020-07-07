@@ -37,9 +37,10 @@ fuzzyTextFilterFn.autoRemove = (val) => !val;
 
 // Our table component
 function ReactTableItems({ data, title, columns }) {
-  const { setId, setTablaItems, setResult, setObjeto } = useContext(DataContext);
+  const { setId, setTablaItems, setObjeto, setMainArray } = useContext(DataContext);
   let history = useHistory();
   const [datosSeleccionados, setDatosSeleccionados] = React.useState([]);
+  const [diseabled, setDiseabled] = React.useState(true);
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
@@ -128,27 +129,41 @@ function ReactTableItems({ data, title, columns }) {
     }
   );
 
-  function handleDatos(props) {
+  function handleDatos() {
     let array = [];
     selectedFlatRows.map((d) => {
       array.push(d.original);
     });
-    let obj = { tipo: 'item' };
-    obj.id = array[0].id;
+    if (array.length > 1 || array.length < 1) {
+      setDiseabled(false);
+    } else {
+      setDiseabled(true);
+      let obj = { tipo: 'item' };
+      obj.id = array[0].id;
+      setObjeto(obj);
+      setDatosSeleccionados(array);
+      setId(array[0].id);
+      setTablaItems(true);
+      history.push('/resultado');
+    }
+  }
+  function contentBase() {
+    console.log('content base');
+    let array = [];
+    let objeto1 = {};
+    let objeto2 = {};
+    selectedFlatRows.map((d) => {
+      array.push(d.original);
+    });
+    let mainArray = [];
+    objeto1.title = array[0].title;
+    objeto2.item_lim = 10;
+    mainArray.push(objeto1);
+    mainArray.push(objeto2);
+    let obj = { tipo: 'content_base' };
     setObjeto(obj);
-    setDatosSeleccionados(array);
-    setId(array[0].id);
-    setTablaItems(true);
-    // console.log('array =>', array[0].id);
-    // fetch('http://localhost:4000/items', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(array),
-    // }).then((res) => {
-    //   res.json().then((data) => setResult(data));
-    // });
+    setMainArray(mainArray);
+    console.log('content base ', mainArray);
     history.push('/resultado');
   }
 
@@ -248,8 +263,23 @@ function ReactTableItems({ data, title, columns }) {
 
       {/* Botones */}
       <div className="buttons">
-        <button className="botonEnviar" onClick={handleDatos}>
+        {diseabled ? (
+          <button className="botonEnviar" onClick={handleDatos}>
+            Usuarios recomendados para pelicula
+          </button>
+        ) : (
+          <>
+            <span className="warning">Seleccione solo un usuario</span>
+            <button className="botonEnviar" onClick={handleDatos}>
+              Peliculas recomendadas por usuario
+            </button>
+          </>
+        )}
+        {/* <button className="botonEnviar" onClick={handleDatos}>
           Usuarios recomendados para pelicula
+        </button> */}
+        <button className="botonEnviar" onClick={contentBase}>
+          Content base
         </button>
 
         {/* <Boton

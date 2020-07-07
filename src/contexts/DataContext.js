@@ -8,8 +8,12 @@ const DataContextProvider = (props) => {
   const [tablaItems, setTablaItems] = useState(false);
   const [mainData, setMainData] = useState([]);
   const [columns, setColumnData] = useState([]);
+  const [mainArray, setMainArray] = useState([]);
+  const [array, setArray] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  const [userSelected, setUserSelected] = React.useState(false);
   const [tituloTabla, setTituloTabla] = useState('Lista vacia');
+
   const updateData = (newData) => {
     const dataForColumn = JSON.parse(newData)[0];
     setMainData(JSON.parse(newData));
@@ -70,6 +74,12 @@ const DataContextProvider = (props) => {
         setTablaItems,
         objeto,
         setObjeto,
+        mainArray,
+        setMainArray,
+        userSelected,
+        setUserSelected,
+        array,
+        setArray,
       }}
     >
       {props.children}

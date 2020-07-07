@@ -1,8 +1,7 @@
 import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
-import { useTable, usePagination, useFilters, useGlobalFilter, useRowSelect } from 'react-table';
+import { useTable, usePagination, useFilters, useGlobalFilter } from 'react-table';
 import matchSorter from 'match-sorter';
-import './react-table-user.css';
+import './react-table-result.css';
 import { DataContext } from '../../contexts/DataContext';
 
 function DefaultColumnFilter({ column: { filterValue, setFilter, preFilteredRows } }) {
@@ -36,13 +35,9 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 fuzzyTextFilterFn.autoRemove = (val) => !val;
 
 // Our table component
-function ReactTableUser({ data, title, columns }) {
-  const { result, setResult, setId, setTablaItems, setObjeto, setMainArray } = useContext(
-    DataContext
-  );
-  let history = useHistory();
-  const [datosSeleccionados, setDatosSeleccionados] = React.useState([]);
-  const [diseabled, setDiseabled] = React.useState(true);
+function ReactTableResult({ data, titulo, columns }) {
+  // const { setId, setTablaItems, setResult, setObjeto } = useContext(DataContext);
+  // const [datosSeleccionados, setDatosSeleccionados] = React.useState([]);
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
@@ -95,77 +90,20 @@ function ReactTableUser({ data, title, columns }) {
       initialState: { pageIndex: 0 },
       defaultColumn,
       filterTypes,
-      title,
+      titulo,
     },
     useFilters, // useFilters!
     useGlobalFilter, // useGlobalFilter!
-    usePagination,
-    useRowSelect,
+    usePagination
+    // useRowSelect,
     // Here we will use a plugin to add our selection column
-    (hooks) => {
-      hooks.visibleColumns.push((columns) => {
-        return [
-          {
-            id: 'selection',
-            // Make this column a groupByBoundary. This ensures that groupBy columns
-            // are placed after it
-            groupByBoundary: true,
-            // The header can use the table's getToggleAllRowsSelectedProps method
-            // to render a checkbox
-            Header: ({ getToggleAllRowsSelectedProps }) => (
-              <div>
-                <IndeterminateCheckbox {...getToggleAllRowsSelectedProps()} />
-              </div>
-            ),
-            // The cell can use the individual row's getToggleRowSelectedProps method
-            // to the render a checkbox
-            Cell: ({ row }) => (
-              <div>
-                <IndeterminateCheckbox {...row.getToggleRowSelectedProps()} />
-              </div>
-            ),
-          },
-          ...columns,
-        ];
-      });
-    }
   );
-
-  function handleDatos() {
-    let array = [];
-    selectedFlatRows.map((d) => {
-      array.push(d.original);
-    });
-    if (array.length > 1 || array.length < 1) {
-      setDiseabled(false);
-    } else {
-      setDiseabled(true);
-      setDatosSeleccionados(array);
-      let obj = { tipo: 'user' };
-      obj.id = array[0].id;
-      setObjeto(obj);
-      setId(array[0].id);
-      setTablaItems(false);
-      console.log('array =>', array[0].id);
-      history.push('/resultado');
-    }
-  }
-  function recomendGroup() {
-    let obj = { tipo: 'group' };
-    setObjeto(obj);
-    let array = [];
-    selectedFlatRows.map((d) => {
-      array.push(d.original.id);
-    });
-    setMainArray(array);
-    history.push('/resultado');
-    console.log('handle datos form users table', array);
-  }
 
   // Render the UI for your table
   return (
     <>
-      <h1>{title}</h1>
+      <h1>{titulo}</h1>
+
       {/* <div>
         <div>
           <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} /> Seleccionar todo
@@ -255,51 +193,6 @@ function ReactTableUser({ data, title, columns }) {
           ))}
         </select>
       </div>
-
-      {/* Botones */}
-      <div className="buttons">
-        {diseabled ? (
-          <button className="botonEnviar" onClick={handleDatos}>
-            Peliculas recomendadas por usuario
-          </button>
-        ) : (
-          <>
-            <span className="warning">Seleccione solo un usuario</span>
-            <button className="botonEnviar" onClick={handleDatos}>
-              Peliculas recomendadas por usuario
-            </button>
-          </>
-        )}
-
-        <button className="botonEnviar" onClick={recomendGroup}>
-          Recomendadas por grupo
-        </button>
-
-        {/* <Boton
-          subirFichero={handleClick}
-          nameButton={'Cambiar fuente de datos'}
-          className="botonEnviar2"
-        /> */}
-      </div>
-
-      {/* <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-              filters,
-              selectedRowIds: selectedRowIds,
-              'datos seleccionados': selectedFlatRows.map((d) => d.original),
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre> */}
     </>
   );
 }
@@ -318,4 +211,4 @@ const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref)
     </>
   );
 });
-export default ReactTableUser;
+export default ReactTableResult;

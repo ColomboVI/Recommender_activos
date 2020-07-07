@@ -12,28 +12,132 @@ export class LucaTabla extends React.Component {
       id: '',
       resultado: {},
       item: '',
+      datosHybridos: [],
     };
     this.crearHeaders = this.crearHeaders.bind(this);
     this.createCabeceras = this.createCabeceras.bind(this);
     this.getData = this.getData.bind(this);
-    console.log('objeto => 👌👌', props.objeto);
-    // const responseRecommendator = [];
-    // console.log('props datos desde tabla', props.id);
-    // console.log('props datos desde tabla', props.tabla);
+    console.log('objeto => ', props.objeto.tipo);
     if (props.objeto.tipo === 'user') {
-      this.setState({ id: props.objeto.id }, this.getData(props.objeto.id));
-      this.setState({ item: props.objeto.tipo });
+      this.getData(props.objeto.id);
     } else if (props.objeto.tipo === 'item') {
-      this.setState({ id: props.objeto.id }, this.getItems(props.objeto.id));
+      this.getItems(props.objeto.id);
+    } else if (props.objeto.tipo === 'hybrid') {
+      this.getHybridResult();
+    } else if (props.objeto.tipo === 'content_base') {
+      this.getContentBaseResult();
+    } else if (props.objeto.tipo === 'group') {
+      this.getGroupResult();
     }
+  }
 
-    // if (props.tabla) {
-    //   console.log('entra aqui');
-    //   this.setState({ id: props.id }, this.getItems(props.id));
-    //   return;
-    // } else {
-    //   this.setState({ id: props.id }, this.getData(props.id));
-    // }
+  // UNSAFE_componentWillMount() {
+  //   console.log('componentWillMount');
+  //   this.setState({ datosHybridos: this.props.hybridData });
+  // }
+  getGroupResult() {
+    let superArray = [];
+    let obj1 = {};
+    let obj2 = {};
+    obj1.id = this.props.hybridData;
+    obj2.item_lim = 10;
+    superArray.push(obj1);
+    superArray.push(obj2);
+    console.log('llega hasta aqui GRUPO', superArray);
+    fetch('http://localhost:4000/group', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(superArray),
+    }).then((res) => {
+      res.json().then((datos) => {
+        console.log(datos);
+        this.setState({ resultado: datos });
+        console.log('respuesta content base => ', this.state.resultado);
+        let arr = [];
+
+        // this.state.resultado.forEach((ele) => {
+
+        //   console.log(ele);
+        // });
+
+        for (let pelicula in this.state.resultado) {
+          const result = {};
+          result.name = this.state.resultado[pelicula];
+          // result.rating = pelicula;
+
+          console.log(pelicula);
+          console.log(this.state.resultado[pelicula]);
+          arr.push(result);
+        }
+
+        this.crearHeaders(arr);
+        this.setState({ alumnos: arr });
+      });
+    });
+  }
+  getContentBaseResult() {
+    let data = this.props.hybridData;
+    console.log('Main array => ', data);
+    fetch('http://localhost:4000/content', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      res.json().then((datos) => {
+        this.setState({ resultado: datos });
+        console.log('respuesta content base => ', this.state.resultado);
+        let arr = [];
+
+        // this.state.resultado.forEach((ele) => {
+
+        //   console.log(ele);
+        // });
+
+        for (let pelicula in this.state.resultado) {
+          const result = {};
+          result.name = pelicula;
+          result.rating = this.state.resultado[pelicula];
+
+          console.log(pelicula);
+          console.log(this.state.resultado[pelicula]);
+          arr.push(result);
+        }
+
+        this.crearHeaders(arr);
+        this.setState({ alumnos: arr });
+      });
+    });
+  }
+
+  getHybridResult() {
+    // console.log(this.props.hybridData);
+    let data = this.props.hybridData;
+    fetch('http://localhost:4000/hybrid', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      res.json().then((datos) => {
+        console.log('datos desde el back : ', datos);
+        this.setState({ resultado: datos });
+
+        const responseRecommendator = this.state.resultado[0].items.map((ele, i) => {
+          return {
+            name: ele,
+            rating: this.state.resultado[0].ratings[i],
+          };
+        });
+
+        this.crearHeaders(responseRecommendator);
+        this.setState({ alumnos: responseRecommendator });
+      });
+    });
   }
   getData(id) {
     let array = [];
@@ -64,10 +168,6 @@ export class LucaTabla extends React.Component {
     });
   }
 
-  //   [
-  //  {"id":[1,2]},
-  //  {"n_user":10}
-  //  ]
   getItems(id) {
     let array = [];
     let obj1 = {};
@@ -76,7 +176,7 @@ export class LucaTabla extends React.Component {
     array.push(obj1);
     obj2.n_user = 10;
     array.push(obj2);
-    console.log('Objeto 🙌🙌', array);
+    console.log('Objeto => ', array);
     // console.log('array items', array);
 
     fetch('http://localhost:4000/items', {

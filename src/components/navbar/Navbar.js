@@ -40,12 +40,18 @@ const Navbar = (props) => {
             {/* <NavLink to="/" activeClassName="active" exact>
               Input data
             </NavLink> */}
+            <NavLink to="/hybrid" activeClassName="active">
+              Hybrid
+            </NavLink>
             <NavLink to="/main-tab" activeClassName="active">
               Input data
             </NavLink>
             <NavLink to="/resultado" activeClassName="active">
               Output
             </NavLink>
+            {/* <NavLink to="/tabla-result" activeClassName="active">
+              Tabla nueva
+            </NavLink> */}
           </ul>
         </nav>
       </header>

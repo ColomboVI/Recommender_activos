@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTable, usePagination, useFilters, useGlobalFilter, useRowSelect } from 'react-table';
 import matchSorter from 'match-sorter';
-import './react-table-user.css';
+import './react-table-user_4h.css';
 import { DataContext } from '../../contexts/DataContext';
 
 function DefaultColumnFilter({ column: { filterValue, setFilter, preFilteredRows } }) {
@@ -36,13 +36,14 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 fuzzyTextFilterFn.autoRemove = (val) => !val;
 
 // Our table component
-function ReactTableUser({ data, title, columns }) {
-  const { result, setResult, setId, setTablaItems, setObjeto, setMainArray } = useContext(
+function ReactTableUserH({ data, title, columns }) {
+  const { setId, setTablaItems, setObjeto, mainArray, setMainArray, setUserSelected } = useContext(
     DataContext
   );
   let history = useHistory();
   const [datosSeleccionados, setDatosSeleccionados] = React.useState([]);
   const [diseabled, setDiseabled] = React.useState(true);
+  const [showInfo, setShowInfo] = React.useState(false);
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
@@ -150,36 +151,41 @@ function ReactTableUser({ data, title, columns }) {
       history.push('/resultado');
     }
   }
-  function recomendGroup() {
-    let obj = { tipo: 'group' };
-    setObjeto(obj);
+  function selectUsers() {
     let array = [];
     selectedFlatRows.map((d) => {
+      console.log('DDD', d.original.id);
       array.push(d.original.id);
     });
-    setMainArray(array);
-    history.push('/resultado');
-    console.log('handle datos form users table', array);
+    let mainAr = [];
+    let obj = {};
+    obj.id = array;
+    mainAr.push(obj);
+    setMainArray(mainAr);
+    setShowInfo(true);
+    setUserSelected(true);
+    console.log('array result 🐱‍🏍✔✔', mainArray);
   }
 
+  const mostrarDatosSeleccionados = () => {
+    let datos = mainArray;
+    let obj = datos[0];
+    if (showInfo) {
+      return obj.id.map((e, i) => {
+        console.log('EEEE ;;; ', e);
+        return <strong key={i}>{<span>{e + ', '}</span>}</strong>;
+      });
+    } else {
+      return null;
+    }
+  };
   // Render the UI for your table
   return (
     <>
       <h1>{title}</h1>
-      {/* <div>
-        <div>
-          <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} /> Seleccionar todo
-        </div>
-        {allColumns.map((column) => (
-          <div key={column.id}>
-            <label>
-              <input type="checkbox" {...column.getToggleHiddenProps()} /> {column.id}
-              <span class="checkmark"></span>
-            </label>
-          </div>
-        ))}
-        <br />
-      </div> */}
+      {showInfo ? <h4>Usuarios Seleccionados : </h4> : null}
+      {mostrarDatosSeleccionados()}
+
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -207,10 +213,6 @@ function ReactTableUser({ data, title, columns }) {
           })}
         </tbody>
       </table>
-      {/*
-        Pagination can be built however you'd like.
-        This is just a very basic UI implementation:
-      */}
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
@@ -255,51 +257,19 @@ function ReactTableUser({ data, title, columns }) {
           ))}
         </select>
       </div>
-
-      {/* Botones */}
-      <div className="buttons">
-        {diseabled ? (
-          <button className="botonEnviar" onClick={handleDatos}>
-            Peliculas recomendadas por usuario
+      {showInfo ? (
+        <div className="buttons">
+          <button className="botonEnviar" onClick={selectUsers}>
+            Cambiar seleccion
           </button>
-        ) : (
-          <>
-            <span className="warning">Seleccione solo un usuario</span>
-            <button className="botonEnviar" onClick={handleDatos}>
-              Peliculas recomendadas por usuario
-            </button>
-          </>
-        )}
-
-        <button className="botonEnviar" onClick={recomendGroup}>
-          Recomendadas por grupo
-        </button>
-
-        {/* <Boton
-          subirFichero={handleClick}
-          nameButton={'Cambiar fuente de datos'}
-          className="botonEnviar2"
-        /> */}
-      </div>
-
-      {/* <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-              filters,
-              selectedRowIds: selectedRowIds,
-              'datos seleccionados': selectedFlatRows.map((d) => d.original),
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre> */}
+        </div>
+      ) : (
+        <div className="buttons">
+          <button className="botonEnviar" onClick={selectUsers}>
+            Seleccionar
+          </button>
+        </div>
+      )}
     </>
   );
 }
@@ -318,4 +288,4 @@ const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref)
     </>
   );
 });
-export default ReactTableUser;
+export default ReactTableUserH;

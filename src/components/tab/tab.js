@@ -3,11 +3,9 @@ import { LucaTabla } from '../tabla/tabla';
 import './tab.css';
 import { DataContext } from '../../contexts/DataContext';
 const Tab = () => {
-  const { id, tablaItems, result, objeto } = useContext(DataContext);
+  const { id, tablaItems, objeto, mainArray } = useContext(DataContext);
   useEffect(() => {
-    console.log('resultado desde TAB', id);
-    console.log('tabla items desde TAB', tablaItems);
-    console.log('result desde TAB', result);
+    console.log('rmain array desde TAB', mainArray);
   });
 
   return (
@@ -37,7 +35,7 @@ const Tab = () => {
             1872, a tradition that lasted until 1990 when the golden Festbier was adopted as the
             standard festival beer.
           </p> */}
-          <LucaTabla id={id} tabla={tablaItems} objeto={objeto} />
+          <LucaTabla id={id} tabla={tablaItems} objeto={objeto} hybridData={mainArray} />
         </section>
         <section id="grafica" className="tab-panel">
           <h2>Gráfica</h2>

@@ -4,14 +4,16 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Navbar from './components/navbar/Navbar';
-import ReactTable from './components/react-table/react-table';
+// import ReactTable from './components/react-table/react-table';
 import Card from './components/card/card';
 import Tab from './components/tab/tab';
 import Maintab from './components/main-tab/main-tab';
+import ReactTableResult from './components/react-table-result/react-table-result';
+import Hybrid from './components/hybrid/hybrid';
 
 import './App.css';
 import './assets/css/global.css';
-
+import { alumnos } from './data.json';
 import { DataContext } from './contexts/DataContext';
 
 const Styles = styled.div`
@@ -61,25 +63,47 @@ const Styles = styled.div`
 `;
 
 const MainApp = () => {
-  const { mainData, columns, loaded, tituloTabla, updateData, tableName } = useContext(DataContext);
+  const { updateData, tableName } = useContext(DataContext);
 
-  const mainTable = () => {
-    if (!loaded) {
-      return <Card updateTableData={updateData} tituloTable={tableName} />;
-    } else {
-      return (
-        <Styles>
-          <ReactTable
-            columns={columns}
-            data={mainData}
-            title={tituloTabla}
-            updateTableData={updateData}
-            tituloTable={tableName}
-          />
-        </Styles>
-      );
-    }
-  };
+  const columnas = React.useMemo(
+    () => [
+      {
+        Header: 'ID',
+        accessor: 'id',
+      },
+      {
+        Header: 'Nombre',
+        accessor: 'name',
+      },
+      {
+        Header: 'Edad',
+        accessor: 'age',
+      },
+      {
+        Header: 'Email',
+        accessor: 'email',
+      },
+    ],
+    []
+  );
+
+  // const mainTable = () => {
+  //   if (!loaded) {
+  //     return <Card updateTableData={updateData} tituloTable={tableName} />;
+  //   } else {
+  //     return (
+  //       <Styles>
+  //         <ReactTable
+  //           columns={columns}
+  //           data={mainData}
+  //           title={tituloTabla}
+  //           updateTableData={updateData}
+  //           tituloTable={tableName}
+  //         />
+  //       </Styles>
+  //     );
+  //   }
+  // };
 
   return (
     <Router>
@@ -104,8 +128,16 @@ const MainApp = () => {
             </Route>
 
             <Route path="/main-tab" exact>
-              {/* <h1>Hola</h1> */}
               <Maintab />
+            </Route>
+            <Route path="/hybrid" exact>
+              <Hybrid />
+            </Route>
+            <Route path="/tabla-result" exact>
+              {/* <h1>Tabla resultado</h1> */}
+              <Styles>
+                <ReactTableResult columns={columnas} titulo={'Resultado'} data={alumnos} />
+              </Styles>
             </Route>
             <Route path="/resultado">
               <Tab updateTableData={updateData} tituloTable={tableName} />

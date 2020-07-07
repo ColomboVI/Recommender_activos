@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTable, usePagination, useFilters, useGlobalFilter, useRowSelect } from 'react-table';
 import matchSorter from 'match-sorter';
-import './react-table-user.css';
+import './react-table-items_4h.css';
 import { DataContext } from '../../contexts/DataContext';
 
 function DefaultColumnFilter({ column: { filterValue, setFilter, preFilteredRows } }) {
@@ -36,10 +36,8 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 fuzzyTextFilterFn.autoRemove = (val) => !val;
 
 // Our table component
-function ReactTableUser({ data, title, columns }) {
-  const { result, setResult, setId, setTablaItems, setObjeto, setMainArray } = useContext(
-    DataContext
-  );
+function ReactTableItemsH({ data, title, columns }) {
+  const { setId, setTablaItems, setObjeto, mainArray, setMainArray } = useContext(DataContext);
   let history = useHistory();
   const [datosSeleccionados, setDatosSeleccionados] = React.useState([]);
   const [diseabled, setDiseabled] = React.useState(true);
@@ -140,26 +138,28 @@ function ReactTableUser({ data, title, columns }) {
       setDiseabled(false);
     } else {
       setDiseabled(true);
-      setDatosSeleccionados(array);
-      let obj = { tipo: 'user' };
+      let obj = { tipo: 'item' };
       obj.id = array[0].id;
       setObjeto(obj);
+      setDatosSeleccionados(array);
       setId(array[0].id);
-      setTablaItems(false);
-      console.log('array =>', array[0].id);
+      setTablaItems(true);
       history.push('/resultado');
     }
   }
-  function recomendGroup() {
-    let obj = { tipo: 'group' };
-    setObjeto(obj);
-    let array = [];
+  function handleDatos2() {
+    let arr = mainArray;
+    let objeto = {};
+    let obj = { tipo: 'hybrid' };
     selectedFlatRows.map((d) => {
-      array.push(d.original.id);
+      objeto.title = d.original.title;
+      console.log(d.original.title);
+      arr.push(objeto);
     });
-    setMainArray(array);
+    setMainArray(arr);
+    setObjeto(obj);
+    console.log('Handle 🐱‍🐉🐱‍🐉', mainArray);
     history.push('/resultado');
-    console.log('handle datos form users table', array);
   }
 
   // Render the UI for your table
@@ -258,9 +258,9 @@ function ReactTableUser({ data, title, columns }) {
 
       {/* Botones */}
       <div className="buttons">
-        {diseabled ? (
+        {/* {diseabled ? (
           <button className="botonEnviar" onClick={handleDatos}>
-            Peliculas recomendadas por usuario
+            Usuarios recomendados para pelicula
           </button>
         ) : (
           <>
@@ -269,10 +269,12 @@ function ReactTableUser({ data, title, columns }) {
               Peliculas recomendadas por usuario
             </button>
           </>
-        )}
-
-        <button className="botonEnviar" onClick={recomendGroup}>
-          Recomendadas por grupo
+        )} */}
+        {/* <button className="botonEnviar" onClick={handleDatos}>
+          Usuarios recomendados para pelicula
+        </button> */}
+        <button className="botonEnviar" onClick={handleDatos2}>
+          Enviar seleccion
         </button>
 
         {/* <Boton
@@ -318,4 +320,4 @@ const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref)
     </>
   );
 });
-export default ReactTableUser;
+export default ReactTableItemsH;

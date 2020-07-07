@@ -28,16 +28,9 @@
   margin-left: 5px;
   display: inline;
 }
-
 .buttons {
   display: flex;
   float: right;
-}
-.warning {
-  font-weight: bold;
-  margin-right: 9px;
-  color: red;
-  margin-top: 9px;
 }
 
 div > div > div > div.buttons > div > label {

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import './main-tab.css';
 import styled from 'styled-components';
 import ReactTableNew from '../react-table-user/react-table-user';
@@ -54,10 +53,8 @@ const Styles = styled.div`
 `;
 
 const Maintab = () => {
-  const [usuarios, setUsuarios] = useState(users);
-  const [peliculas, setPeliculas] = useState(items);
-  console.log('usuarios', usuarios);
-  console.log('peliculas', peliculas);
+  const [usuarios] = useState(users);
+  const [peliculas] = useState(items);
 
   const columnas = [
     {
@@ -99,27 +96,13 @@ const Maintab = () => {
 
       <div className="tab-panels">
         <section id="result" className="tab-panel">
-          {/* <h2>Users</h2> */}
           <Styles>
-            <ReactTableNew
-              columns={columnas}
-              data={usuarios}
-              // title={tituloTabla}
-              // updateTableData={updateData}
-              // tituloTable={tableName}
-            />
+            <ReactTableNew columns={columnas} data={usuarios} />
           </Styles>
         </section>
         <section id="grafica" className="tab-panel">
-          {/* <h2>Items</h2> */}
           <Styles>
-            <ReactTableItems
-              columns={columnasItems}
-              data={items}
-              // title={tituloTabla}
-              // updateTableData={updateData}
-              // tituloTable={tableName}
-            />
+            <ReactTableItems columns={columnasItems} data={peliculas} />
           </Styles>
         </section>
       </div>
