@@ -52,23 +52,13 @@ export class LucaTabla extends React.Component {
       body: JSON.stringify(superArray),
     }).then((res) => {
       res.json().then((datos) => {
-        console.log(datos);
         this.setState({ resultado: datos });
-        console.log('respuesta content base => ', this.state.resultado);
         let arr = [];
-
-        // this.state.resultado.forEach((ele) => {
-
-        //   console.log(ele);
-        // });
 
         for (let pelicula in this.state.resultado) {
           const result = {};
           result.name = this.state.resultado[pelicula];
           // result.rating = pelicula;
-
-          console.log(pelicula);
-          console.log(this.state.resultado[pelicula]);
           arr.push(result);
         }
 
@@ -79,7 +69,6 @@ export class LucaTabla extends React.Component {
   }
   getContentBaseResult() {
     let data = this.props.hybridData;
-    console.log('Main array => ', data);
     fetch('http://localhost:4000/content', {
       method: 'POST',
       headers: {
@@ -89,21 +78,13 @@ export class LucaTabla extends React.Component {
     }).then((res) => {
       res.json().then((datos) => {
         this.setState({ resultado: datos });
-        console.log('respuesta content base => ', this.state.resultado);
         let arr = [];
-
-        // this.state.resultado.forEach((ele) => {
-
-        //   console.log(ele);
-        // });
 
         for (let pelicula in this.state.resultado) {
           const result = {};
           result.name = pelicula;
           result.rating = this.state.resultado[pelicula];
 
-          console.log(pelicula);
-          console.log(this.state.resultado[pelicula]);
           arr.push(result);
         }
 
@@ -114,7 +95,6 @@ export class LucaTabla extends React.Component {
   }
 
   getHybridResult() {
-    // console.log(this.props.hybridData);
     let data = this.props.hybridData;
     fetch('http://localhost:4000/hybrid', {
       method: 'POST',
@@ -124,7 +104,6 @@ export class LucaTabla extends React.Component {
       body: JSON.stringify(data),
     }).then((res) => {
       res.json().then((datos) => {
-        console.log('datos desde el back : ', datos);
         this.setState({ resultado: datos });
 
         const responseRecommendator = this.state.resultado[0].items.map((ele, i) => {
@@ -144,7 +123,6 @@ export class LucaTabla extends React.Component {
     let obj = {};
     obj.id = id;
     array.push(obj);
-    console.log('this state id', id);
     fetch('http://localhost:4000/users', {
       method: 'POST',
       headers: {
@@ -154,8 +132,6 @@ export class LucaTabla extends React.Component {
     }).then((res) => {
       res.json().then((data) => {
         this.setState({ resultado: data });
-        console.log('datos desde tabla => =>', this.state.resultado);
-        console.info(typeof this.state.resultado[0].items);
         const responseRecommendator = this.state.resultado[0].items.map((element, idx) => {
           return {
             name: element,
@@ -176,8 +152,6 @@ export class LucaTabla extends React.Component {
     array.push(obj1);
     obj2.n_user = 10;
     array.push(obj2);
-    console.log('Objeto => ', array);
-    // console.log('array items', array);
 
     fetch('http://localhost:4000/items', {
       method: 'POST',
@@ -188,7 +162,6 @@ export class LucaTabla extends React.Component {
     }).then((res) => {
       res.json().then((data) => {
         this.setState({ resultado: data });
-        console.log('items tabla => =>', this.state.resultado[0]);
 
         const responseRecommendator = this.state.resultado[0].users.map((element, idx) => {
           return {

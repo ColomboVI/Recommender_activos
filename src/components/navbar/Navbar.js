@@ -40,6 +40,9 @@ const Navbar = (props) => {
             {/* <NavLink to="/" activeClassName="active" exact>
               Input data
             </NavLink> */}
+            <NavLink to="/importar-datos" activeClassName="active">
+              Importar datos
+            </NavLink>
             <NavLink to="/hybrid" activeClassName="active">
               Hybrid
             </NavLink>

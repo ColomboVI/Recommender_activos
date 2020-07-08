@@ -37,12 +37,11 @@ fuzzyTextFilterFn.autoRemove = (val) => !val;
 
 // Our table component
 function ReactTableUser({ data, title, columns }) {
-  const { result, setResult, setId, setTablaItems, setObjeto, setMainArray } = useContext(
-    DataContext
-  );
+  const { setId, setTablaItems, setObjeto, setMainArray } = useContext(DataContext);
   let history = useHistory();
   const [datosSeleccionados, setDatosSeleccionados] = React.useState([]);
   const [diseabled, setDiseabled] = React.useState(true);
+  const [botonGrupo, setBotonGrupo] = React.useState(false);
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
@@ -130,6 +129,18 @@ function ReactTableUser({ data, title, columns }) {
       });
     }
   );
+  function cambiaBotones() {
+    let array = [];
+    selectedFlatRows.map((d) => {
+      array.push(d.original.id);
+    });
+
+    if (array.length + 1 > 1) {
+      setBotonGrupo(true);
+    } else if (array.length + 1 <= 1) {
+      setBotonGrupo(false);
+    }
+  }
 
   function handleDatos() {
     let array = [];
@@ -200,7 +211,11 @@ function ReactTableUser({ data, title, columns }) {
             return (
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
-                  return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>;
+                  return (
+                    <td {...cell.getCellProps()} onChange={cambiaBotones}>
+                      {cell.render('Cell')}
+                    </td>
+                  );
                 })}
               </tr>
             );
@@ -258,7 +273,16 @@ function ReactTableUser({ data, title, columns }) {
 
       {/* Botones */}
       <div className="buttons">
-        {diseabled ? (
+        {botonGrupo ? (
+          <button className="botonEnviar" onClick={recomendGroup}>
+            Peliculas recomendadas por grupo
+          </button>
+        ) : (
+          <button className="botonEnviar" onClick={handleDatos}>
+            Peliculas recomendadas por usuario
+          </button>
+        )}
+        {/* {diseabled ? (
           <button className="botonEnviar" onClick={handleDatos}>
             Peliculas recomendadas por usuario
           </button>
@@ -270,10 +294,9 @@ function ReactTableUser({ data, title, columns }) {
             </button>
           </>
         )}
-
         <button className="botonEnviar" onClick={recomendGroup}>
           Recomendadas por grupo
-        </button>
+        </button> */}
 
         {/* <Boton
           subirFichero={handleClick}

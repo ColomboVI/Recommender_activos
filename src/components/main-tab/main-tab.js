@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import ReactTableNew from '../react-table-user/react-table-user';
 import ReactTableItems from '../react-table-items/react-table-items';
 import { users } from '../../assets/data/users_ids.json';
-import { items } from '../../assets/data/item.json';
+// import { items } from '../../assets/data/item.json';
+import { items } from '../../assets/data/columnas.json';
 
 const Styles = styled.div`
   table {
@@ -84,20 +85,56 @@ const Maintab = () => {
       Header: 'Director',
       accessor: 'director',
     },
+    {
+      Header: 'Presupuesto',
+      accessor: 'budget',
+    },
+    {
+      Header: 'Genero',
+      accessor: 'genres',
+    },
+    {
+      Header: 'Web',
+      accessor: 'homepage',
+    },
+    {
+      Header: 'Estado',
+      accessor: 'status',
+    },
+    {
+      Header: 'Descripcion',
+      accessor: 'tagline',
+    },
+    {
+      Header: 'Duracion',
+      accessor: 'runtime',
+    },
+    {
+      Header: 'Media votos',
+      accessor: 'vote_average',
+    },
+    {
+      Header: 'Total votos',
+      accessor: 'vote_count',
+    },
+    {
+      Header: 'Lanzamiento',
+      accessor: 'release_date',
+    },
   ];
 
   return (
     <div className="tabset">
       <input type="radio" name="tabset" id="tab1" aria-controls="result" defaultChecked />
-      <label htmlFor="tab1">Users</label>
+      <label htmlFor="tab1">Usuario</label>
 
       <input type="radio" name="tabset" id="tab2" aria-controls="grafica" />
-      <label htmlFor="tab2">Items</label>
+      <label htmlFor="tab2">Peliculas</label>
 
       <div className="tab-panels">
         <section id="result" className="tab-panel">
           <Styles>
-            <ReactTableNew columns={columnas} data={usuarios} />
+            <ReactTableNew columns={columnas} data={usuarios} title="Pablo" />
           </Styles>
         </section>
         <section id="grafica" className="tab-panel">
