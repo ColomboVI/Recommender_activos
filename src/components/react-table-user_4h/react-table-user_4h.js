@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTable, usePagination, useFilters, useGlobalFilter, useRowSelect } from 'react-table';
 import matchSorter from 'match-sorter';
+import './react-table-user_4h.css';
 import { DataContext } from '../../contexts/DataContext';
-import Boton from '../boton/boton';
-import './react-table.css';
 
 function DefaultColumnFilter({ column: { filterValue, setFilter, preFilteredRows } }) {
   // const contador = preFilteredRows.length;
@@ -37,25 +36,14 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 fuzzyTextFilterFn.autoRemove = (val) => !val;
 
 // Our table component
-function ReactTable({ data, title }) {
-  const handleClick = (e) => {
-    history.push('/home');
-    const reader = new FileReader();
-    reader.onload = function () {
-      // props.updateTableData(reader.result);
-      updateData(reader.result);
-    };
-    // props.tituloTable(e.target.files[0].name);
-    if (!e.target.files) {
-      return;
-    }
-    const titulo = e.target.files[0].name.split('.')[0].toUpperCase();
-    setTituloTabla(titulo);
-    reader.readAsText(e.target.files[0]);
-  };
-  const { columns, updateData, setTituloTabla } = useContext(DataContext);
+function ReactTableUserH({ data, title, columns }) {
+  const { setId, setTablaItems, setObjeto, mainArray, setMainArray, setUserSelected } = useContext(
+    DataContext
+  );
   let history = useHistory();
-  const [setDatosSeleccionados] = React.useState([]);
+  const [datosSeleccionados, setDatosSeleccionados] = React.useState([]);
+  const [diseabled, setDiseabled] = React.useState(true);
+  const [showInfo, setShowInfo] = React.useState(false);
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
@@ -144,42 +132,60 @@ function ReactTable({ data, title }) {
     }
   );
 
-  function handleDatos(props) {
-    let aray = [];
+  function handleDatos() {
+    let array = [];
     selectedFlatRows.map((d) => {
-      aray.push(d.original);
+      array.push(d.original);
     });
-    setDatosSeleccionados(aray);
-    console.log('aray', aray);
-    fetch('http://localhost:5000/datos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ aray }),
+    if (array.length > 1 || array.length < 1) {
+      setDiseabled(false);
+    } else {
+      setDiseabled(true);
+      setDatosSeleccionados(array);
+      let obj = { tipo: 'user' };
+      obj.id = array[0].id;
+      setObjeto(obj);
+      setId(array[0].id);
+      setTablaItems(false);
+      console.log('array =>', array[0].id);
+      history.push('/resultado');
+    }
+  }
+  function selectUsers() {
+    let array = [];
+    selectedFlatRows.map((d) => {
+      console.log('DDD', d.original.id);
+      array.push(d.original.id);
     });
-
-    history.push('/resultado');
+    let mainAr = [];
+    let obj = {};
+    obj.id = array;
+    mainAr.push(obj);
+    setMainArray(mainAr);
+    setShowInfo(true);
+    setUserSelected(true);
+    console.log('array result 🐱‍🏍✔✔', mainArray);
   }
 
+  const mostrarDatosSeleccionados = () => {
+    let datos = mainArray;
+    let obj = datos[0];
+    if (showInfo) {
+      return obj.id.map((e, i) => {
+        console.log('EEEE ;;; ', e);
+        return <strong key={i}>{<span>{e + ', '}</span>}</strong>;
+      });
+    } else {
+      return null;
+    }
+  };
   // Render the UI for your table
   return (
     <>
       <h1>{title}</h1>
-      {/* <div>
-        <div>
-          <IndeterminateCheckbox {...getToggleHideAllColumnsProps()} /> Seleccionar todo
-        </div>
-        {allColumns.map((column) => (
-          <div key={column.id}>
-            <label>
-              <input type="checkbox" {...column.getToggleHiddenProps()} /> {column.id}
-              <span class="checkmark"></span>
-            </label>
-          </div>
-        ))}
-        <br />
-      </div> */}
+      {showInfo ? <h4>Usuarios Seleccionados : </h4> : null}
+      {mostrarDatosSeleccionados()}
+
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -207,10 +213,6 @@ function ReactTable({ data, title }) {
           })}
         </tbody>
       </table>
-      {/*
-        Pagination can be built however you'd like.
-        This is just a very basic UI implementation:
-      */}
       <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
           {'<<'}
@@ -255,38 +257,19 @@ function ReactTable({ data, title }) {
           ))}
         </select>
       </div>
-
-      {/* Botones */}
-      <div className="buttons">
-        <button className="botonEnviar" onClick={handleDatos}>
-          Enviar datos
-        </button>
-
-        {/* <Boton
-          subirFichero={handleClick}
-          nameButton={'Cambiar fuente de datos'}
-          className="botonEnviar2"
-        /> */}
-      </div>
-
-      {/* <pre>
-        <code>
-          {JSON.stringify(
-            {
-              pageIndex,
-              pageSize,
-              pageCount,
-              canNextPage,
-              canPreviousPage,
-              filters,
-              selectedRowIds: selectedRowIds,
-              'datos seleccionados': selectedFlatRows.map((d) => d.original),
-            },
-            null,
-            2
-          )}
-        </code>
-      </pre> */}
+      {showInfo ? (
+        <div className="buttons">
+          <button className="botonEnviar" onClick={selectUsers}>
+            Cambiar seleccion
+          </button>
+        </div>
+      ) : (
+        <div className="buttons">
+          <button className="botonEnviar" onClick={selectUsers}>
+            Seleccionar
+          </button>
+        </div>
+      )}
     </>
   );
 }
@@ -305,4 +288,4 @@ const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref)
     </>
   );
 });
-export default ReactTable;
+export default ReactTableUserH;

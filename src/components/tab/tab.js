@@ -1,8 +1,13 @@
-import React from 'react';
-import { LucaTabla } from '../tabla/index';
+import React, { useEffect, useContext } from 'react';
+import { LucaTabla } from '../tabla/tabla';
 import './tab.css';
-
+import { DataContext } from '../../contexts/DataContext';
 const Tab = () => {
+  const { id, tablaItems, objeto, mainArray } = useContext(DataContext);
+  useEffect(() => {
+    console.log('rmain array desde TAB', mainArray);
+  });
+
   return (
     <div className="tabset">
       <input type="radio" name="tabset" id="tab1" aria-controls="result" defaultChecked />
@@ -30,11 +35,11 @@ const Tab = () => {
             1872, a tradition that lasted until 1990 when the golden Festbier was adopted as the
             standard festival beer.
           </p> */}
-          <LucaTabla />
+          <LucaTabla id={id} tabla={tablaItems} objeto={objeto} hybridData={mainArray} />
         </section>
         <section id="grafica" className="tab-panel">
           <h2>Gráfica</h2>
-          <p>
+          {/* <p>
             <strong>Overall Impression:</strong> An elegant, malty German amber lager with a
             balanced, complementary beechwood smoke character. Toasty-rich malt in aroma and flavor,
             restrained bitterness, low to high smoke flavor, clean fermentation profile, and an
@@ -45,7 +50,7 @@ const Tab = () => {
             Franconian region of Bavaria in Germany. Beechwood-smoked malt is used to make a
             Märzen-style amber lager. The smoke character of the malt varies by maltster; some
             breweries produce their own smoked malt (rauchmalz).
-          </p>
+          </p> */}
         </section>
       </div>
     </div>

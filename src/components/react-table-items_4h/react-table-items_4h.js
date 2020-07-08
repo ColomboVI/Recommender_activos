@@ -2,9 +2,8 @@ import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useTable, usePagination, useFilters, useGlobalFilter, useRowSelect } from 'react-table';
 import matchSorter from 'match-sorter';
+import './react-table-items_4h.css';
 import { DataContext } from '../../contexts/DataContext';
-import Boton from '../boton/boton';
-import './react-table.css';
 
 function DefaultColumnFilter({ column: { filterValue, setFilter, preFilteredRows } }) {
   // const contador = preFilteredRows.length;
@@ -37,25 +36,11 @@ function fuzzyTextFilterFn(rows, id, filterValue) {
 fuzzyTextFilterFn.autoRemove = (val) => !val;
 
 // Our table component
-function ReactTable({ data, title }) {
-  const handleClick = (e) => {
-    history.push('/home');
-    const reader = new FileReader();
-    reader.onload = function () {
-      // props.updateTableData(reader.result);
-      updateData(reader.result);
-    };
-    // props.tituloTable(e.target.files[0].name);
-    if (!e.target.files) {
-      return;
-    }
-    const titulo = e.target.files[0].name.split('.')[0].toUpperCase();
-    setTituloTabla(titulo);
-    reader.readAsText(e.target.files[0]);
-  };
-  const { columns, updateData, setTituloTabla } = useContext(DataContext);
+function ReactTableItemsH({ data, title, columns }) {
+  const { setId, setTablaItems, setObjeto, mainArray, setMainArray } = useContext(DataContext);
   let history = useHistory();
-  const [setDatosSeleccionados] = React.useState([]);
+  const [datosSeleccionados, setDatosSeleccionados] = React.useState([]);
+  const [diseabled, setDiseabled] = React.useState(true);
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
@@ -144,21 +129,36 @@ function ReactTable({ data, title }) {
     }
   );
 
-  function handleDatos(props) {
-    let aray = [];
+  function handleDatos() {
+    let array = [];
     selectedFlatRows.map((d) => {
-      aray.push(d.original);
+      array.push(d.original);
     });
-    setDatosSeleccionados(aray);
-    console.log('aray', aray);
-    fetch('http://localhost:5000/datos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ aray }),
+    if (array.length > 1 || array.length < 1) {
+      setDiseabled(false);
+    } else {
+      setDiseabled(true);
+      let obj = { tipo: 'item' };
+      obj.id = array[0].id;
+      setObjeto(obj);
+      setDatosSeleccionados(array);
+      setId(array[0].id);
+      setTablaItems(true);
+      history.push('/resultado');
+    }
+  }
+  function handleDatos2() {
+    let arr = mainArray;
+    let objeto = {};
+    let obj = { tipo: 'hybrid' };
+    selectedFlatRows.map((d) => {
+      objeto.title = d.original.title;
+      console.log(d.original.title);
+      arr.push(objeto);
     });
-
+    setMainArray(arr);
+    setObjeto(obj);
+    console.log('Handle 🐱‍🐉🐱‍🐉', mainArray);
     history.push('/resultado');
   }
 
@@ -258,8 +258,23 @@ function ReactTable({ data, title }) {
 
       {/* Botones */}
       <div className="buttons">
-        <button className="botonEnviar" onClick={handleDatos}>
-          Enviar datos
+        {/* {diseabled ? (
+          <button className="botonEnviar" onClick={handleDatos}>
+            Usuarios recomendados para pelicula
+          </button>
+        ) : (
+          <>
+            <span className="warning">Seleccione solo un usuario</span>
+            <button className="botonEnviar" onClick={handleDatos}>
+              Peliculas recomendadas por usuario
+            </button>
+          </>
+        )} */}
+        {/* <button className="botonEnviar" onClick={handleDatos}>
+          Usuarios recomendados para pelicula
+        </button> */}
+        <button className="botonEnviar" onClick={handleDatos2}>
+          Enviar seleccion
         </button>
 
         {/* <Boton
@@ -305,4 +320,4 @@ const IndeterminateCheckbox = React.forwardRef(({ indeterminate, ...rest }, ref)
     </>
   );
 });
-export default ReactTable;
+export default ReactTableItemsH;
