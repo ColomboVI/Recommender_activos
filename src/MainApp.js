@@ -15,7 +15,7 @@ import './App.css';
 import './assets/css/global.css';
 import { alumnos } from './data.json';
 import { DataContext } from './contexts/DataContext';
-import Pablo from './components/Pablo/Pablo';
+import ImportarDatos from './components/ImportarDatos/ImportarDatos';
 
 const Styles = styled.div`
   table {
@@ -125,7 +125,7 @@ const MainApp = () => {
               <Maintab />
             </Route>
             <Route path="/importar-datos" exact>
-              <Pablo nombre="Juan" />
+              <ImportarDatos />
             </Route>
             <Route path="/home" exact>
               <Maintab />

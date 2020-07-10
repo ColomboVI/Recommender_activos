@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Pablo = ({ nombre }) => {
+const ImportarDatos = ({ nombre }) => {
   return (
     <div>
       <h1>Importar datos</h1>
@@ -17,4 +17,4 @@ const Pablo = ({ nombre }) => {
   );
 };
 
-export default Pablo;
+export default ImportarDatos;
